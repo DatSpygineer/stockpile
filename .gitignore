@@ -1,0 +1,9 @@
+# Ignore IDE folders
+.idea
+.vs
+.vscode
+
+# Ignore build folders
+build
+cmake-build-debug
+cmake-build-release
