@@ -17,7 +17,7 @@
 ////////////////////////////////////////////////////////////
 
 typedef struct StpArchiveBuilderEntry {
-    char name[256];
+    char name[255];
     void* data;
     size_t size;
     uint8_t name_len;
@@ -32,7 +32,7 @@ struct StpArchive {
 
 struct StpEntry {
     void* origin;
-    char entry_name[257];
+    char entry_name[256];
     size_t size;
 };
 
@@ -61,7 +61,7 @@ typedef struct StpArchiveHeader {
 } StpArchiveHeader;
 
 typedef struct StpEntryRaw {
-    char entry_name[256];
+    char entry_name[255];
     uint32_t origin, size;
     uint8_t name_len;
 } StpEntryRaw;
@@ -548,8 +548,8 @@ bool StpBuilderAppendFileF(StpArchiveBuilder* builder, FILE* file, const char* e
         .data = data,
         .size = len,
     };
-    memset(entry.name, 0, 256);
-    entry.name_len = strlen(entry_name) > 256 ? 256 : strlen(entry_name);
+    memset(entry.name, 0, 255);
+    entry.name_len = (uint8_t)(strlen(entry_name) > 255u ? 255u : strlen(entry_name));
     memcpy(entry.name, entry_name, entry.name_len);
 
     builder->entries[builder->count++] = entry;
@@ -586,8 +586,8 @@ bool StpBuilderAppendBinary(StpArchiveBuilder* builder, const char* entry_name, 
         .data = data,
         .size = buffer_size,
     };
-    memset(entry.name, 0, 256);
-    entry.name_len = strlen(entry_name) > 256 ? 256 : strlen(entry_name);
+    memset(entry.name, 0, 255);
+    entry.name_len = (uint8_t)(strlen(entry_name) > 255 ? 255 : strlen(entry_name));
     memcpy(entry.name, entry_name, entry.name_len);
 
     if (builder->count >= builder->capacity) {
@@ -692,7 +692,7 @@ StpArchive* StpBuilderFinalize(StpArchiveBuilder* builder) {
             .origin = origin,
             .size = entry_size
         };
-        memset(result->entries[i].entry_name, 0, 257);
+        memset(result->entries[i].entry_name, 0, 256);
         memcpy(result->entries[i].entry_name, builder->entries[i].name, builder->entries[i].name_len);
     }
 
