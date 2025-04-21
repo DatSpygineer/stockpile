@@ -4,6 +4,9 @@
 .vscode
 
 # Ignore build folders
+bin
+bin_x86
+bin_x64
 build
 cmake-build-debug
 cmake-build-release
