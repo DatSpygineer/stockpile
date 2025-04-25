@@ -1,8 +1,14 @@
-cmake_minimum_required(VERSION 4.0)
+cmake_minimum_required(VERSION 3.30)
+
 project(stockpile C)
 
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
+
+if (WIN32)
+	add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
+	include(vcpkg.cmake)
+endif()
 
 if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
     set(STP_ARCH x64)

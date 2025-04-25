@@ -1,3 +1,15 @@
+/**
+ * @file stockpile.h
+ * @author Marcell Rozs
+ * @brief Stockpile is a simple file collection format for game engines.
+ * @version 1.0
+ * @date 2025-04-25
+ * 
+*/
+
+////////////////////////////////////////////////////////////
+/// Includes
+////////////////////////////////////////////////////////////
 #include "stockpile.h"
 
 #include <sys/stat.h>
@@ -437,7 +449,7 @@ bool StpExtractEntryToFileF(const StpEntry* entry, FILE* out_file) {
     }
     return true;
 }
-void StpFreeEntry(StpEntry** entry) {
+void StpCloseEntry(StpEntry** entry) {
     if (entry != NULL && *entry != NULL) {
         free(*entry);
         *entry = NULL;
@@ -732,5 +744,9 @@ bool StpBuilderFinalizeToFileF(StpArchiveBuilder* builder, FILE* file, const boo
     return true;
 }
 void StpFreeBuilder(StpArchiveBuilder** builder) {
-
+    if (builder != NULL && *builder != NULL) {
+        StpBuilderClear(*builder);
+        free(*builder);
+        *builder = NULL;
+    }
 }
